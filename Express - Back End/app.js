@@ -2,8 +2,10 @@ require('dotenv').config()
 
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
-jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
+const { sequelize } = require('./db')
+// Remove Mongoose usage; we are migrating to PostgreSQL via Sequelize
+// const mongoose = require('mongoose')
 const cors = require('cors')
 const checkToken = require('./middleware/checkToken')
 
@@ -25,37 +27,48 @@ const reserva_equip = require('./routes/reserva_equip')
 
 app.use(cors());
 
-mongoose.Promise = global.Promise
+// Initialize Sequelize connection and sync models
+async function initDatabase() {
+  try {
+    await sequelize.authenticate();
+    const shouldSync = (process.env.DB_SYNC || 'false').toLowerCase() === 'true';
+    if (shouldSync) {
+      await sequelize.sync();
+    }
+    console.log('PostgreSQL connection established');
+  } catch (err) {
+    console.error('Failed to connect to PostgreSQL:', err);
+    process.exit(1);
+  }
+}
 
 
-//models
-const User = require('./models/User')
-const salaModel = require('./models/Reserva_Salas')
-const equipModel = require('./models/Reserva_Equip')
+// models (Sequelize)
+const { Usuario, Reserva: ReservaModel } = require('./modelsSQL')
 
 app.use(express.json())
 
 //open route
-app.get('/',async(req,res)=>{
-    const reservaSala = await salaModel.find()
-    const reservaEquip = await equipModel.find()
-    res.status(200).json({msg:"Bem vindo a API",reservaSala,reservaEquip})
-
+app.get('/', async (req, res) => {
+  try {
+    const reservas = await ReservaModel.findAll({ limit: 10, order: [['id', 'DESC']] });
+    res.status(200).json({ msg: 'Bem vindo a API', reservas });
+  } catch (err) {
+    res.status(500).json({ msg: 'Erro ao consultar', error: String(err) });
+  }
 })
 
-app.get("/user/:id",checkToken,async(req,res)=>{
+app.get('/user/:id', checkToken, async (req, res) => {
   const id = req.params.id
-
-  //check if user exists
-  const user = await User.findById(id,'-password')
-
-  if(!user){
-      return res.status(404).json({msg: "Usuário não encontrado"})
+  try {
+    const user = await Usuario.findByPk(id, { attributes: { exclude: ['senha'] } })
+    if (!user) {
+      return res.status(404).json({ msg: 'Usuário não encontrado' })
+    }
+    res.status(200).json({ user })
+  } catch (err) {
+    res.status(500).json({ msg: 'Erro ao consultar usuário' })
   }
-
-  res.status(200).json({user})
-          
-
 })
     //rotas de registro e login
       app.use('/auth',auth)
@@ -69,15 +82,8 @@ app.get("/user/:id",checkToken,async(req,res)=>{
       app.use('/salas', salas)
       app.use('/reserva_equip' , reserva_equip)
       
-const dbUser = process.env.DB_USER
-const dbPassword = process.env.DB_PASS
-const port = process.env.DB_PORT
+const port = process.env.PORT || process.env.DB_PORT || 3000
 
-mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@clee.8t8902l.mongodb.net/?retryWrites=true&w=majority`).then(()=>{
-//mongoose.connect(`mongodb://localhost/CLEE_T`).then(()=>{    
-app.listen(port)
-    console.log('connect successful')
-
-}).catch((err)=>{
-    console.log('error '+ err)
+initDatabase().then(() => {
+  app.listen(port, () => console.log(`API running on :${port}`))
 })

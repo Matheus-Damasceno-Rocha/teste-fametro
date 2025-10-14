@@ -1,6 +1,10 @@
 # Reservas-de-Salas---Projeto-Fametro
 Sistema de Reservas de salas para o projeto da unifametro
 
+========================================== BANCO DE DADOS (PostgreSQL) ==========================================
+
+Crie um arquivo `.env` baseado em `.env.example` e configure o acesso ao seu PostgreSQL. Opcionalmente defina `DB_SYNC=true` para o Sequelize criar as tabelas (ou rode `sql/schema.sql`).
+
 ========================================== ENDPOINTS ==========================================
 
 - Rota padrão:
