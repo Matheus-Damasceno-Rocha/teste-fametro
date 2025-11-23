@@ -1,0 +1,118 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+}
+
+.login-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.login-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.login-header p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.login-form {
+  margin-bottom: 1.5rem;
+}
+
+.forgot-password {
+  display: block;
+  text-align: right;
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.divider span {
+  padding: 0 1rem;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.login-footer p {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.alert-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+}

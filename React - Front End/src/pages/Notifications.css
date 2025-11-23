@@ -1,0 +1,150 @@
+.notifications-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-btn {
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.notification-item {
+  background: var(--surface);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  box-shadow: 0 1px 3px var(--shadow);
+  transition: all 0.2s ease;
+}
+
+.notification-item.unread {
+  border-left: 4px solid var(--primary);
+  background: #eff6ff;
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+
+.notification-icon.success {
+  background-color: var(--success);
+}
+
+.notification-icon.warning {
+  background-color: var(--warning);
+}
+
+.notification-icon.danger {
+  background-color: var(--danger);
+}
+
+.notification-icon.info {
+  background-color: var(--primary);
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-message {
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+}
+
+.notification-time {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.notification-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  background: var(--background);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.icon-btn.danger:hover {
+  background-color: var(--danger);
+  color: white;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+}
+
+.empty-state svg {
+  color: var(--border);
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .notifications-filters {
+    flex-wrap: wrap;
+  }
+
+  .notification-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .notification-actions {
+    justify-content: flex-end;
+  }
+}
